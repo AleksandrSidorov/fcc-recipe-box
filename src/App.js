@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import RecipecardsList from './components/RecipeCardsList';
 
 const INIT_RECIPES = [
   {recipe: "Cheese omelette", ingredients: ["eggs", "olive oil", "cheddar cheese"]},
@@ -37,7 +38,8 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <h1>Welcome to Recipe Box</h1>
+        <h1>Recipe Box</h1>
+        <RecipecardsList data={this.state.data} />
       </div>
     );
   }
