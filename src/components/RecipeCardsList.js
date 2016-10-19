@@ -4,11 +4,13 @@ import RecipeCard from './RecipeCard';
 class RecipeCardsList extends Component {
   render () {
     const recipeCards = this.props.data
-      .map( (recipe) => {
+      .map( (recipe, index) => {
         return (
           <RecipeCard
             key={recipe.recipe}
-            recipe={recipe} />
+            recipeIndex={index}
+            recipe={recipe}
+            onDeleteRecipe={this.props.onDeleteRecipe} />
         );
       });
 

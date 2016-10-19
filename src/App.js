@@ -33,13 +33,21 @@ class App extends Component {
   populateStorage = () => {
     localStorage.setItem('_recipe_list', JSON.stringify(INIT_RECIPES));
     this.getStoredRecipes();
-  }
+  };
+
+  handleDeleteRecipe = (index) => {
+    console.log(this.state.data);
+    const newData = this.state.data.splice(index, 1);
+    this.setState({
+      data: newData
+    });
+  };
 
   render() {
     return (
       <div className="container">
         <h1>Recipe Box</h1>
-        <RecipecardsList data={this.state.data} />
+        <RecipecardsList data={this.state.data} onDeleteRecipe={this.handleDeleteRecipe} />
       </div>
     );
   }
