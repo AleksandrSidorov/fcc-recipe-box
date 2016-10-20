@@ -4,7 +4,8 @@ import RecipecardsList from './components/RecipeCardsList';
 
 const INIT_RECIPES = [
   {recipe: "Cheese omelette", ingredients: ["eggs", "olive oil", "cheddar cheese"]},
-  {recipe: "Pancakes", ingredients: ["flour", "milk", "eggs", "butter"]}
+  {recipe: "Pancakes", ingredients: ["flour", "milk", "eggs", "butter"]},
+  {recipe: "Salad", ingredients: ["Cucumber", "Tomatoe", "Onion", "Olive oil"]}
 ];
 
 class App extends Component {
@@ -18,7 +19,7 @@ class App extends Component {
 
   componentDidMount() {
     if(!localStorage.getItem('_recipe_list')) {
-      this.populateStorage();
+      this.populateStorage(INIT_RECIPES);
     } else {
       this.getStoredRecipes();
     }
@@ -28,22 +29,21 @@ class App extends Component {
     this.setState({
       data: JSON.parse(localStorage.getItem('_recipe_list'))
     });
-    console.log(this.state);
   };
 
-  populateStorage = () => {
-    localStorage.setItem('_recipe_list', JSON.stringify(INIT_RECIPES));
+  populateStorage = (data) => {
+    localStorage.setItem('_recipe_list', JSON.stringify(data));
     this.getStoredRecipes();
   };
 
   handleDeleteRecipe = (index) => {
-    //console.log(index);
-    //console.log(this.state.data);
-    const newData = this.state.data.splice(index, 1);
-    //console.log(newData);
+    const newData = this.state.data.slice();
+    newData.splice(index, 1);
     this.setState({
       data: newData
     });
+    console.log('New State: ')
+    console.log(this.state.data);
   };
 
   render() {
