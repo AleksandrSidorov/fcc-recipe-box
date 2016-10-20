@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import RecipeCard from './RecipeCard';
 
 class RecipeCardsList extends Component {
+  handleDeleteRecipe = (index) => {
+    this.props.onDeleteRecipe(index);
+  }
+
   render () {
     const recipeCards = this.props.data
       .map( (recipe, index) => {
@@ -10,7 +14,7 @@ class RecipeCardsList extends Component {
             key={recipe.recipe}
             recipeIndex={index}
             recipe={recipe}
-            onDeleteRecipe={this.props.onDeleteRecipe} />
+            onDeleteRecipe={this.handleDeleteRecipe} />
         );
       });
 

@@ -3,7 +3,7 @@ import IngredientsList from './IngredientsList';
 
 class RecipeCard extends Component {
   handleDelete = () => {
-    console.log(this.props.recipeIndex);
+    //console.log(this.props.recipeIndex);
     this.props.onDeleteRecipe(this.props.recipeIndex);
   }
 

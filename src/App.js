@@ -28,6 +28,7 @@ class App extends Component {
     this.setState({
       data: JSON.parse(localStorage.getItem('_recipe_list'))
     });
+    console.log(this.state);
   };
 
   populateStorage = () => {
@@ -36,8 +37,10 @@ class App extends Component {
   };
 
   handleDeleteRecipe = (index) => {
-    console.log(this.state.data);
+    //console.log(index);
+    //console.log(this.state.data);
     const newData = this.state.data.splice(index, 1);
+    //console.log(newData);
     this.setState({
       data: newData
     });
