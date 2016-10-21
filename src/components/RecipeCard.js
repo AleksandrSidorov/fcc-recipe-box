@@ -8,18 +8,26 @@ class RecipeCard extends Component {
   }
 
   render () {
+    const recipeItem = this.props.recipe;
     return (
       <div className="card">
         <div className="card-header">
-          {this.props.recipe.recipe} - {this.props.recipeIndex}
+          <a
+            data-toggle="collapse"
+            href={"#collapse" + recipeItem.recipe.replace(/\s+/g, '')}
+            aria-controls={"collapse" + recipeItem.recipe.replace(/\s+/g, '')}>
+            {recipeItem.recipe}
+          </a>
         </div>
-        <div className="card-block">
-          <IngredientsList ingredients={this.props.recipe.ingredients} />
-        </div>
-        <div className="card-block">
-          <div className="btn-toolbar">
-            <button className="btn btn-primary">Edit</button>
-            <button className="btn btn-danger" onClick={this.handleDelete}>Delete</button>
+        <div className="collapse" id={"collapse" + recipeItem.recipe.replace(/\s+/g, '')}>
+          <div className="card-block">
+            <IngredientsList ingredients={recipeItem.ingredients} />
+          </div>
+          <div className="card-block">
+            <div className="btn-toolbar">
+              <button className="btn btn-primary">Edit</button>
+              <button className="btn btn-danger" onClick={this.handleDelete}>Delete</button>
+            </div>
           </div>
         </div>
       </div>
