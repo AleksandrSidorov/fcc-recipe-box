@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import RecipecardsList from './components/RecipeCardsList';
+import AddRecipeModal from './components/AddRecipeModal';
 
 const INIT_RECIPES = [
   {recipe: "Cheese omelette", ingredients: ["eggs", "olive oil", "cheddar cheese"]},
@@ -13,7 +14,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      data: []
+      data: [],
+      modalIsOpen: false
     };
   }
 
@@ -51,6 +53,7 @@ class App extends Component {
       <div className="container">
         <h1>Recipe Box</h1>
         <RecipecardsList data={this.state.data} onDeleteRecipe={this.handleDeleteRecipe} />
+        <AddRecipeModal modalIsOpen={this.state.modalIsOpen} />
       </div>
     );
   }
