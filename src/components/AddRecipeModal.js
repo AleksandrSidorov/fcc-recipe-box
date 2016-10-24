@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 
 class AddRecipeModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {modalIsOpen: false};
+  }
+
   openModal = () => this.setState({modalIsOpen: true});
 
   closeModal = () => this.setState({modalIsOpen: false});
@@ -10,21 +15,25 @@ class AddRecipeModal extends Component {
     // opportunity to validate something and keep the modal open
     // even if it requested to be closed
     this.setState({modalIsOpen: false});
-  }
+  };
 
   // TODO Add Recipe handler here
   handleModalAddRecipe = () => {
-    return;
-  }
+    return false;
+  };
 
   render () {
+    console.log(this.state);
     return (
       <div>
-        <button onClick={this.onpenModal} className="btn btn-success">
+        <button
+          onClick={this.openModal}
+          className="btn btn-success">
           Add Recipe
         </button>
         <Modal
           className="Modal__Bootstrap modal-dialog"
+          role="document"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.handleModalCloseRequest}>
@@ -36,7 +45,20 @@ class AddRecipeModal extends Component {
               <h4 className="modal-title">Add Recipe</h4>
             </div>
             <div className="modal-body">
-              Body Here...
+              <div className="form-group">
+                <label htmlFor="recipeNameInput">Recipe Name</label>
+                <input type="text"
+                  id="recipeNameInput"
+                  className="form-control"
+                  placeholder="Recipe name" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="recipeIngredientsInput">Ingredients</label>
+                <input type="text"
+                  id="recipeIngredientsInput"
+                  className="form-control"
+                  placeholder="ingredient, ingredient, ..." />
+              </div>
             </div>
             <div className="modal-footer">
               <div className="btn-toolbar">
