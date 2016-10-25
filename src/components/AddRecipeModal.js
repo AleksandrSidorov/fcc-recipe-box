@@ -4,7 +4,13 @@ import Modal from 'react-modal';
 class AddRecipeModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {modalIsOpen: false};
+    this.state = {
+      modalIsOpen: false,
+      recipeValue: {
+        recipeName: '',
+        ingredientsList: []
+      }
+    };
   }
 
   openModal = () => this.setState({modalIsOpen: true});
@@ -21,6 +27,12 @@ class AddRecipeModal extends Component {
   handleModalAddRecipe = () => {
     return false;
   };
+
+  handleFormChange = (event) => {
+    this.setState({recipeValue: {
+      recipeName: event.target.value
+    }})
+  }
 
   render () {
     console.log(this.state);
