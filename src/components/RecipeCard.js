@@ -24,10 +24,8 @@ class RecipeCard extends Component {
             <IngredientsList ingredients={recipeItem.ingredients} />
           </div>
           <div className="card-block">
-            <div className="btn-toolbar">
-              <button className="btn btn-primary">Edit</button>
-              <button className="btn btn-danger" onClick={this.handleDelete}>Delete</button>
-            </div>
+            <button className="btn btn-primary mr-2">Edit</button>
+            <button className="btn btn-danger" onClick={this.handleDelete}>Delete</button>
           </div>
         </div>
       </div>
