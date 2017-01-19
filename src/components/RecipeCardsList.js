@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import RecipeCard from './RecipeCard'
+import { Accordion } from 'react-bootstrap'
 
 // Initial Data
 const INIT_RECIPES = [
@@ -54,9 +55,9 @@ class RecipeCardsList extends Component {
       })
 
     return (
-      <div>
+      <Accordion>
         {recipeCards}
-      </div>
+      </Accordion>
     )
   }
 }

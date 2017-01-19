@@ -7,8 +7,9 @@
   },
   "dependencies": {
     "react": "^15.3.2",
+    "react-bootstrap": "^0.30.7",
     "react-dom": "^15.3.2",
-    "react-modal": "^1.5.2"
+    "react-modal": "^1.6.5"
   },
   "scripts": {
     "start": "react-scripts start",

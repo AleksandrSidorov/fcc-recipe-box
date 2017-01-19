@@ -1,34 +1,24 @@
-import React, { Component } from 'react';
-import IngredientsList from './IngredientsList';
+import React, { Component } from 'react'
+import IngredientsList from './IngredientsList'
+import { Panel } from 'react-bootstrap'
 
 class RecipeCard extends Component {
   handleDelete = () => {
     //console.log(this.props.recipeIndex);
-    this.props.onDeleteRecipe(this.props.recipeIndex);
+    this.props.onDeleteRecipe(this.props.recipeIndex)
   }
 
   render () {
-    const recipeItem = this.props.recipe;
+    const recipeItem = this.props.recipe
+    const recipeIndex = this.props.recipeIndex
     return (
-      <div className="card">
-        <div className="card-header">
-          <a
-            data-toggle="collapse"
-            href={"#collapse" + recipeItem.recipe.replace(/\s+/g, '')}
-            aria-controls={"collapse" + recipeItem.recipe.replace(/\s+/g, '')}>
-            {recipeItem.recipe}
-          </a>
+      <Panel header={recipeItem.recipe} eventKey={recipeIndex}>
+        <IngredientsList ingredients={recipeItem.ingredients} />
+        <div className="panel-footer">
+          <button className="btn btn-primary mr-2">Edit</button>
+          <button className="btn btn-danger" onClick={this.handleDelete}>Delete</button>
         </div>
-        <div className="collapse" id={"collapse" + recipeItem.recipe.replace(/\s+/g, '')}>
-          <div className="card-block">
-            <IngredientsList ingredients={recipeItem.ingredients} />
-          </div>
-          <div className="card-block">
-            <button className="btn btn-primary mr-2">Edit</button>
-            <button className="btn btn-danger" onClick={this.handleDelete}>Delete</button>
-          </div>
-        </div>
-      </div>
+      </Panel>
     );
   }
 }
