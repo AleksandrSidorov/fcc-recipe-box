@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import RecipeCard from './RecipeCard'
-import { Accordion } from 'react-bootstrap'
+import { PanelGroup, Panel } from 'react-bootstrap'
 
 // Initial Data
 const INIT_RECIPES = [
-  {recipe: "Cheese omelette", ingredients: ["eggs", "olive oil", "cheddar cheese"]},
-  {recipe: "Pancakes", ingredients: ["flour", "milk", "eggs", "butter"]},
-  {recipe: "Salad", ingredients: ["Cucumber", "Tomatoe", "Onion", "Olive oil"]}
+  {title: "Cheese omelette", ingredients: ["eggs", "olive oil", "cheddar cheese"]},
+  {title: "Pancakes", ingredients: ["flour", "milk", "eggs", "butter"]},
+  {title: "Salad", ingredients: ["Cucumber", "Tomatoe", "Onion", "Olive oil"]}
 ];
 
 class RecipeCardsList extends Component {
@@ -46,18 +46,20 @@ class RecipeCardsList extends Component {
     const recipeCards = this.state.data
       .map( (recipe, index) => {
         return (
-          <RecipeCard
-            key={recipe.recipe}
-            recipeIndex={index}
-            recipe={recipe}
-            onDeleteRecipe={this.handleDeleteRecipe} />
+          <Panel header={recipe.title} eventKey={index} key={index}>
+            <RecipeCard
+              key={recipe.title}
+              recipeIndex={index}
+              recipe={recipe}
+              onDeleteRecipe={this.handleDeleteRecipe} />
+          </Panel>
         )
       })
 
     return (
-      <Accordion>
+      <PanelGroup defaultActiveKey={0} accordion>
         {recipeCards}
-      </Accordion>
+      </PanelGroup>
     )
   }
 }
