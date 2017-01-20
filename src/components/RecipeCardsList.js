@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import RecipeCard from './RecipeCard'
 import { PanelGroup, Panel } from 'react-bootstrap'
+
+import RecipeCard from './RecipeCard'
+import AddRecipe from './AddRecipe'
 
 // Initial Data
 const INIT_RECIPES = [
-  {title: "Cheese omelette", ingredients: ["eggs", "olive oil", "cheddar cheese"]},
-  {title: "Pancakes", ingredients: ["flour", "milk", "eggs", "butter"]},
+  {title: "Cheese omelette", ingredients: ["Eggs", "Olive oil", "Cheddar cheese"]},
+  {title: "Pancakes", ingredients: ["Flour", "Milk", "Eggs", "Butter"]},
   {title: "Salad", ingredients: ["Cucumber", "Tomatoe", "Onion", "Olive oil"]}
 ];
 
@@ -38,9 +40,17 @@ class RecipeCardsList extends Component {
     newData.splice(index, 1);
     this.setState({
       data: newData
-    });
+    })
     localStorage.setItem('_recipe_list', JSON.stringify(newData))
-  };
+  }
+
+  handleAddRecipe = (recipe) => {
+    const newData = this.state.data.push(recipe)
+    this.setState({
+      data: newData
+    })
+    localStorage.setItem('_recipe_list', JSON.stringify(newData))
+  }
 
   render () {
     const recipeCards = this.state.data
@@ -57,9 +67,12 @@ class RecipeCardsList extends Component {
       })
 
     return (
-      <PanelGroup defaultActiveKey={0} accordion>
-        {recipeCards}
-      </PanelGroup>
+      <div>
+        <PanelGroup defaultActiveKey={0} accordion>
+          {recipeCards}
+        </PanelGroup>
+        <AddRecipe />
+      </div>
     )
   }
 }
