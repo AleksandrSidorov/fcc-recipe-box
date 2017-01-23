@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { PanelGroup, Panel } from 'react-bootstrap'
+import { PanelGroup, Panel, Button } from 'react-bootstrap'
 
 import RecipeCard from './RecipeCard'
-import AddRecipe from './AddRecipe'
+import RecipeModal from './RecipeModal'
 
 // Initial Data
 const INIT_RECIPES = [
@@ -16,6 +16,7 @@ class RecipeCardsList extends Component {
     super(props)
 
     this.state = {
+      showModal: false,
       data: []
     }
   }
@@ -35,6 +36,10 @@ class RecipeCardsList extends Component {
     localStorage.setItem('_recipe_list', JSON.stringify(data))
   }
 
+  openModal = () => this.setState({ showModal: true })
+
+  closeModal = () => this.setState({ showModal: false })
+
   handleDeleteRecipe = (index) => {
     const newData = this.state.data.slice();
     newData.splice(index, 1);
@@ -44,8 +49,8 @@ class RecipeCardsList extends Component {
     localStorage.setItem('_recipe_list', JSON.stringify(newData))
   }
 
-  handleAddRecipe = (recipe) => {
-    const newData = this.state.data.push(recipe)
+  handleAddRecipe(newRecipe) {
+    const newData = [...this.state.data, newRecipe]
     this.setState({
       data: newData
     })
@@ -71,7 +76,13 @@ class RecipeCardsList extends Component {
         <PanelGroup defaultActiveKey={0} accordion>
           {recipeCards}
         </PanelGroup>
-        <AddRecipe />
+        <Button bsStyle="success" onClick={this.openModal}>
+          Add Recipe
+        </Button>
+        <RecipeModal
+          onAddRecipe={this.handleAddRecipe.bind(this)}
+          showModal={this.state.showModal}
+          onCloseModal={this.closeModal.bind(this)} />
       </div>
     )
   }
