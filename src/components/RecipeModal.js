@@ -5,14 +5,9 @@ class RecipeModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showModal: props.showModal,
       title: '',
       ingredients: ''
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({ showModal: nextProps.showModal })
   }
 
   close() {
@@ -37,14 +32,14 @@ class RecipeModal extends React.Component {
       title: this.state.title,
       ingredients: this.state.ingredients.split(',')
     }
-    console.log(newRecipe);
     this.props.onAddRecipe(newRecipe)
+    this.close()
   }
 
 
   render() {
     return (
-      <Modal show={this.state.showModal} onHide={this.close.bind(this)}>
+      <Modal show={this.props.showModal} onHide={this.close.bind(this)}>
         <Modal.Header closeButton>
           <Modal.Title>Add Recipe</Modal.Title>
         </Modal.Header>

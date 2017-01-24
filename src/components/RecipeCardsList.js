@@ -49,6 +49,11 @@ class RecipeCardsList extends Component {
     localStorage.setItem('_recipe_list', JSON.stringify(newData))
   }
 
+  handleEditRecipe = (index) => {
+    console.log(index)
+    this.openModal()
+  }
+
   handleAddRecipe(newRecipe) {
     const newData = [...this.state.data, newRecipe]
     this.setState({
@@ -66,7 +71,8 @@ class RecipeCardsList extends Component {
               key={recipe.title}
               recipeIndex={index}
               recipe={recipe}
-              onDeleteRecipe={this.handleDeleteRecipe} />
+              onDeleteRecipe={this.handleDeleteRecipe}
+              onEditRecipe={this.handleEditRecipe} />
           </Panel>
         )
       })
