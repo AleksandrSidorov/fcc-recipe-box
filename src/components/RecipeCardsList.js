@@ -17,6 +17,8 @@ class RecipeCardsList extends Component {
 
     this.state = {
       showModal: false,
+      editMode: false,
+      editRecipe: null,
       data: []
     }
   }
@@ -38,7 +40,9 @@ class RecipeCardsList extends Component {
 
   openModal = () => this.setState({ showModal: true })
 
-  closeModal = () => this.setState({ showModal: false })
+  openModalEdit = (index) => this.setState({ showModal: true, editMode: true, editRecipe: index })
+
+  closeModal = () => this.setState({ showModal: false, editMode: false, editRecipe: null })
 
   handleDeleteRecipe = (index) => {
     const newData = this.state.data.slice();
@@ -49,9 +53,14 @@ class RecipeCardsList extends Component {
     localStorage.setItem('_recipe_list', JSON.stringify(newData))
   }
 
-  handleEditRecipe = (index) => {
-    console.log(index)
-    this.openModal()
+  handleEditRecipe = (editedRecipe) => {
+    const index = this.state.editRecipe
+    const newData = [...this.state.data]
+    newData[index] = editedRecipe
+    this.setState({
+      data: newData
+    })
+    localStorage.setItem('_recipe_list', JSON.stringify(newData))
   }
 
   handleAddRecipe(newRecipe) {
@@ -72,7 +81,7 @@ class RecipeCardsList extends Component {
               recipeIndex={index}
               recipe={recipe}
               onDeleteRecipe={this.handleDeleteRecipe}
-              onEditRecipe={this.handleEditRecipe} />
+              onEditModal={this.openModalEdit} />
           </Panel>
         )
       })
@@ -87,7 +96,10 @@ class RecipeCardsList extends Component {
         </Button>
         <RecipeModal
           onAddRecipe={this.handleAddRecipe.bind(this)}
+          onEditRecipe={this.handleEditRecipe.bind(this)}
+          isEdit={this.state.editMode}
           showModal={this.state.showModal}
+          editRecipe={this.state.data[this.state.editRecipe]}
           onCloseModal={this.closeModal.bind(this)} />
       </div>
     )

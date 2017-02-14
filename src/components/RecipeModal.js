@@ -10,6 +10,15 @@ class RecipeModal extends React.Component {
     }
   }
 
+  checkIfEdit = () => {
+    if (this.props.isEdit) {
+      this.setState({
+        title: this.props.editRecipe.title,
+        ingredients: this.props.editRecipe.ingredients.join(', ')
+      })
+    }
+  }
+
   close() {
     this.setState({
       title: '',
@@ -36,12 +45,33 @@ class RecipeModal extends React.Component {
     this.close()
   }
 
+  handleEditRecipe() {
+    const editedRecipe = {
+      title: this.state.title,
+      ingredients: this.state.ingredients.split(',')
+    }
+    this.props.onEditRecipe(editedRecipe)
+    this.close()
+  }
+
 
   render() {
+
+    let modalTitle = null
+    let modalButton = null
+
+    if (this.props.isEdit) {
+      modalTitle = "Edit Recipe"
+      modalButton = <Button type="submit" bsStyle="primary" onClick={this.handleEditRecipe.bind(this)}>Confirm</Button>
+    } else {
+      modalTitle = "Add Recipe"
+      modalButton = <Button type="submit" bsStyle="primary" onClick={this.handleAddRecipe.bind(this)}>Add</Button>
+    }
+
     return (
-      <Modal show={this.props.showModal} onHide={this.close.bind(this)}>
+      <Modal show={this.props.showModal} onEnter={this.checkIfEdit.bind(this)} onHide={this.close.bind(this)}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Recipe</Modal.Title>
+          <Modal.Title>{modalTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
@@ -64,7 +94,7 @@ class RecipeModal extends React.Component {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="submit" bsStyle="primary" onClick={this.handleAddRecipe.bind(this)}>Add</Button>
+          {modalButton}
           <Button onClick={this.close.bind(this)}>Close</Button>
         </Modal.Footer>
       </Modal>
