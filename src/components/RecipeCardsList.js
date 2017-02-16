@@ -18,15 +18,15 @@ class RecipeCardsList extends Component {
     this.state = {
       showModal: false,
       editMode: false,
-      editRecipe: null,
+      editRecipeIndex: null,
       data: []
     }
   }
 
+  // Populate state with localStorage data.
   componentDidMount() {
     if(!localStorage.getItem('_recipe_list')) {
       this.populateStorage(INIT_RECIPES)
-      console.log('populated!');
       this.setState({ data: INIT_RECIPES })
     } else {
       this.setState({ data: JSON.parse(localStorage.getItem('_recipe_list')) })
@@ -38,40 +38,46 @@ class RecipeCardsList extends Component {
     localStorage.setItem('_recipe_list', JSON.stringify(data))
   }
 
+  // Open modal for new recipe adding
   openModal = () => this.setState({ showModal: true })
 
-  openModalEdit = (index) => this.setState({ showModal: true, editMode: true, editRecipe: index })
+  // Open modal for edit
+  openModalEdit = (index) => this.setState({
+    showModal: true,
+    editMode: true,
+    editRecipeIndex: index
+  })
 
-  closeModal = () => this.setState({ showModal: false, editMode: false, editRecipe: null })
+  // Close modal and reset the state
+  closeModal = () => this.setState({
+    showModal: false,
+    editMode: false,
+    editRecipeIndex: null
+  })
 
   handleDeleteRecipe = (index) => {
-    const newData = this.state.data.slice();
+    const newData = [...this.state.data];
     newData.splice(index, 1);
-    this.setState({
-      data: newData
-    })
+    this.setState({ data: newData })
     localStorage.setItem('_recipe_list', JSON.stringify(newData))
   }
 
   handleEditRecipe = (editedRecipe) => {
-    const index = this.state.editRecipe
+    const index = this.state.editRecipeIndex
     const newData = [...this.state.data]
     newData[index] = editedRecipe
-    this.setState({
-      data: newData
-    })
+    this.setState({ data: newData })
     localStorage.setItem('_recipe_list', JSON.stringify(newData))
   }
 
-  handleAddRecipe(newRecipe) {
+  handleAddRecipe = (newRecipe) => {
     const newData = [...this.state.data, newRecipe]
-    this.setState({
-      data: newData
-    })
+    this.setState({ data: newData })
     localStorage.setItem('_recipe_list', JSON.stringify(newData))
   }
 
   render () {
+
     const recipeCards = this.state.data
       .map( (recipe, index) => {
         return (
@@ -95,12 +101,12 @@ class RecipeCardsList extends Component {
           Add Recipe
         </Button>
         <RecipeModal
-          onAddRecipe={this.handleAddRecipe.bind(this)}
-          onEditRecipe={this.handleEditRecipe.bind(this)}
+          onAddRecipe={this.handleAddRecipe}
+          onEditRecipe={this.handleEditRecipe}
           isEdit={this.state.editMode}
           showModal={this.state.showModal}
-          editRecipe={this.state.data[this.state.editRecipe]}
-          onCloseModal={this.closeModal.bind(this)} />
+          editRecipe={this.state.data[this.state.editRecipeIndex]}
+          onCloseModal={this.closeModal} />
       </div>
     )
   }

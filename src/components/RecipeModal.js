@@ -1,7 +1,15 @@
 import React from 'react'
-import { Button, Modal, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
+import { 
+  Button,
+  Modal,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  HelpBlock
+} from 'react-bootstrap'
 
 class RecipeModal extends React.Component {
+  
   constructor(props) {
     super(props)
     this.state = {
@@ -19,7 +27,7 @@ class RecipeModal extends React.Component {
     }
   }
 
-  close() {
+  closeModal = () => {
     this.setState({
       title: '',
       ingredients: ''
@@ -36,40 +44,39 @@ class RecipeModal extends React.Component {
 
   handleIngredientsChange = (event) => this.setState({ ingredients: event.target.value })
 
-  handleAddRecipe() {
+  handleAddRecipe = () => {
     const newRecipe = {
       title: this.state.title,
-      ingredients: this.state.ingredients.split(',')
+      ingredients: this.state.ingredients.split(',').map((ingredient) => ingredient.trim())
     }
     this.props.onAddRecipe(newRecipe)
-    this.close()
+    this.closeModal()
   }
 
-  handleEditRecipe() {
+  handleEditRecipe = () => {
     const editedRecipe = {
       title: this.state.title,
-      ingredients: this.state.ingredients.split(',')
+      ingredients: this.state.ingredients.split(',').map((ingredient) => ingredient.trim())
     }
     this.props.onEditRecipe(editedRecipe)
-    this.close()
+    this.closeModal()
   }
 
 
   render() {
 
-    let modalTitle = null
-    let modalButton = null
+    let modalTitle, modalButton
 
     if (this.props.isEdit) {
       modalTitle = "Edit Recipe"
-      modalButton = <Button type="submit" bsStyle="primary" onClick={this.handleEditRecipe.bind(this)}>Confirm</Button>
+      modalButton = <Button type="submit" bsStyle="primary" onClick={this.handleEditRecipe}>Confirm</Button>
     } else {
       modalTitle = "Add Recipe"
-      modalButton = <Button type="submit" bsStyle="primary" onClick={this.handleAddRecipe.bind(this)}>Add</Button>
+      modalButton = <Button type="submit" bsStyle="primary" onClick={this.handleAddRecipe}>Add</Button>
     }
 
     return (
-      <Modal show={this.props.showModal} onEnter={this.checkIfEdit.bind(this)} onHide={this.close.bind(this)}>
+      <Modal show={this.props.showModal} onEnter={this.checkIfEdit} onHide={this.closeModal}>
         <Modal.Header closeButton>
           <Modal.Title>{modalTitle}</Modal.Title>
         </Modal.Header>
@@ -95,7 +102,7 @@ class RecipeModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           {modalButton}
-          <Button onClick={this.close.bind(this)}>Close</Button>
+          <Button onClick={this.closeModal}>Close</Button>
         </Modal.Footer>
       </Modal>
     )
