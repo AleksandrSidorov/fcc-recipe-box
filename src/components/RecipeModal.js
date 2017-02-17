@@ -1,4 +1,5 @@
 import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 import { 
   Button,
   Modal,
@@ -7,6 +8,29 @@ import {
   FormControl,
   HelpBlock
 } from 'react-bootstrap'
+
+
+const validate = values => {
+  const errors = {}
+  const requiredFields = [ 'recipeTitle', 'recipeIngredients' ]
+  requiredFields.forEach(field => {
+    if (!values[ field ]) {
+      errors[ field ] = 'Required'
+    }
+  })
+  return errors
+}
+
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
+  return (
+    <FormGroup controlId={input.name} validationState={null}>
+      <ControlLabel>{label}</ControlLabel>
+      <FormControl type="text" {...input} />
+      {touched && error && <HelpBlock>{error}</HelpBlock>}
+    </FormGroup>
+  )
+}
+
 
 class RecipeModal extends React.Component {
   
@@ -35,15 +59,6 @@ class RecipeModal extends React.Component {
     this.props.onCloseModal()
   }
 
-  getTitleValidationState = () => {
-    const titleLength = this.state.title.length
-    if (titleLength < 1) return "error"
-  }
-
-  handleTitleChange = (event) => this.setState({ title: event.target.value })
-
-  handleIngredientsChange = (event) => this.setState({ ingredients: event.target.value })
-
   handleAddRecipe = () => {
     const newRecipe = {
       title: this.state.title,
@@ -61,7 +76,6 @@ class RecipeModal extends React.Component {
     this.props.onEditRecipe(editedRecipe)
     this.closeModal()
   }
-
 
   render() {
 
@@ -82,22 +96,14 @@ class RecipeModal extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <form>
-            <FormGroup controlId="formRecipeTitle" validationState={this.getTitleValidationState()}>
-              <ControlLabel>Recipe Title</ControlLabel>
-              <FormControl
-                type="text"
-                value={this.state.title}
-                onChange={this.handleTitleChange} />
-            </FormGroup>
-            <FormGroup controlId="formRecipeIngredients">
-              <ControlLabel>Ingredients</ControlLabel>
-              <FormControl
-                type="text"
-                value={this.state.ingredients}
-                onChange={this.handleIngredientsChange}
-              />
-              <HelpBlock>Enter comma separated ingredients</HelpBlock>
-            </FormGroup>
+            <Field
+              name="recipeTitle"
+              component={renderTextField}
+              label="Recipe Title" />
+            <Field
+              name="recipeIngredients"
+              component={renderTextField}
+              label="Recipe Ingredients" />
           </form>
         </Modal.Body>
         <Modal.Footer>
@@ -109,4 +115,7 @@ class RecipeModal extends React.Component {
   }
 }
 
-export default RecipeModal
+export default reduxForm({
+  form: 'RecipeForm',
+  validate
+})(RecipeModal)
